@@ -1,0 +1,138 @@
+import { Nav, NavRow, Row, Col, Form, Button } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { useState } from 'react';
+import { useHistory, NavLink  } from 'react-router-dom';
+import pick from 'lodash/pick';
+import store from '../store';
+import { update_user, fetch_users, api_login, fetch_reason } from '../api';
+
+function UserForm({session}) {
+  let history = useHistory();
+  const [user, setUser] = useState({
+    id: session.user_id, name: session.name, email: session.email, pass1: "", pass2: "",
+  });
+
+  function onSubmit(ev) {
+    ev.preventDefault();
+    let data = pick(user, ['id', 'name', 'email', 'password']);
+    update_user(data).then((data) => {
+        if(data.error) {
+          let action={
+            type:"error/set",
+            data: data.error
+          }
+          store.dispatch(action)
+        }
+        else {
+          fetch_users();
+          api_login(user['email'], user['password'])
+          history.push("/users/view")
+        }
+    });
+  }
+
+  function check_pass(p1, p2) {
+    if (p1 !== p2) {
+      return "Passwords don't match.";
+    }
+
+    if (p1.length < 8) {
+      return "Password too short.";
+    }
+
+    return "";
+  }
+
+  function update(field, ev) {
+    let u1 = Object.assign({}, user);
+    u1[field] = ev.target.value;
+    u1.password = u1.pass1;
+    u1.pass_msg = check_pass(u1.pass1, u1.pass2);
+    setUser(u1);
+  }
+
+  function updatePhoto(ev) {
+    let p1 = Object.assign({}, user);
+    p1["photo"] = ev.target.files[0];
+    setUser(p1);
+  }
+
+  function Redirect({to, children}) {
+    return (
+      <Nav.Item>
+        <NavLink to={to} exact
+          className="btn font-weight-bold text-light btn-danger"
+          activeClassName="active">
+          {children}
+        </NavLink>
+      </Nav.Item>
+    );
+  }
+
+
+  return(
+      <Form onSubmit={onSubmit}>
+        <Form.Group>
+          <h1 className="mt-5">Edit Profile</h1>
+          <Form.Label>Name</Form.Label>
+          <Form.Control type="text"
+                        onChange={
+                          (ev) => update("name", ev)}
+            value={user.name} />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Email</Form.Label>
+          <Form.Control type="text"
+                        onChange={
+                          (ev) => update("email", ev)}
+            value={user.email} />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>New Password</Form.Label>
+          <Form.Control type="password"
+            onChange={
+              (ev) => update("pass1", ev)}
+            value={user.pass1} />
+          <p>{user.pass_msg}</p>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Confirm Password</Form.Label>
+          <Form.Control type="password"
+            onChange={
+              (ev) => update("pass2", ev)}
+            value={user.pass2} />
+        </Form.Group>
+        <Row className="ml-1">
+        <Button variant="primary" type="submit" className="h3 font-weight-bold mr-3"
+                disabled={user.pass_msg !== ""}>
+          Save
+        </Button>
+        <Redirect to="/users/view">Cancel</Redirect>
+        </Row>
+      </Form>
+    );
+  }
+
+function LoginEdit({session}) {
+  if(session) {
+    return <UserForm session={session}/>
+  }
+  else{
+    return <h1 className="mt-5 ml-5">Please Login In To Edit</h1>
+  }
+}
+
+const UpdateUserForm = connect(
+    ({session}) => ({session}))(LoginEdit);
+
+function UsersEdit() {
+  return (
+    <UpdateUserForm/>
+  );
+}
+
+function state2props(_state) {
+  return {};
+}
+
+export default connect(state2props)(UsersEdit);

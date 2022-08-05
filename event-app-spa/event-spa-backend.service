@@ -1,0 +1,18 @@
+[Unit]
+Description=hw09
+
+[Service]
+Type=simple
+User=root
+Group=root
+Restart=on-failure
+Environment=MIX_ENV=prod
+Environment=PORT=4797
+Environment=PROD=true
+Environment=LANG=en_US.UTF-8
+
+WorkingDirectory=/home/hw09/CS4550HW09/server
+ExecStart=/bin/bash /home/hw09/CS4550HW09/server/start.sh
+
+[Install]
+WantedBy=multi-user.target

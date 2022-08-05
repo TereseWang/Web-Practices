@@ -1,0 +1,10 @@
+server {
+	listen 80;
+	listen [::]:80;
+	root /home/hw09/CS4550HW09/web-ui/build;
+	index index.html;
+	server_name events-spa.teresewang.com;
+	location / {
+		try_files $uri $uri/ =404;
+	}
+}
