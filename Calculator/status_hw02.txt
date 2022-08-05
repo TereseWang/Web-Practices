@@ -1,0 +1,40 @@
+Please fill in answers to the questions below:
+
+
+1. What's your name?
+	Haoqing Wang 
+
+2. What hostname did you deploy to?
+	hw02.teresewang.com 
+
+3. What's the link to your repository on github with your code?
+	https://github.com/TereseWang/cs4550-hw02.git
+
+4. How many HTML / CSS tutorial exercises did you do?
+	I did all of the tutorial exercises 
+
+5. How comfortable do you feel with HTML and CSS now?
+	Mostly comfortable with HTML, but need more attention to CSS
+
+6. How many JS tutorial exercises did you do?
+	I did exercise 3 for all chapters
+
+7. How comfortable do you feel with JS now?
+	It's very similar to java, so pretty comfortable
+
+8. Do all of your HTML pages pass the W3C HTML validator?
+(https://validator.w3.org/)
+	All of the html pages including domain pages, calc, animal, hw01 and hw02 pass the validator
+
+9. Which parts of this assignment did you have trouble with, if any?
+	Calculator, since need to take lots of consideration with the design
+
+And here's a list of tasks for grading comments. Just leave this here:
+ - Task 1
+ - Task 2
+ - Task 3
+ - Task 4
+ - Task 5
+ - Task 6
+ - Task 7
+ - Task 8

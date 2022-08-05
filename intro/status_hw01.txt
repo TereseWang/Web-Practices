@@ -1,0 +1,29 @@
+Please fill in answers to the questions below:
+
+
+1. What's your name?
+Haoqing Wang 
+
+2. Which VPS & domain providers did you choose?
+Vultr for VPS and namecheap for domain providers
+
+3. What domain name did you register?
+teresewang.com
+
+4. What's the URL of your Github repository for this assignment?
+https://github.com/TereseWang/CS4550-HW01
+
+5. Which parts of this assignment did you have trouble with, if any?
+Setting up domain name for the server, since don't know what record to have
+and got confused with the record type
+
+And here's a list of tasks for grading comments. Just leave this here:
+ - Task 1
+ - Task 2
+ - Task 3
+ - Task 4
+ - Task 5
+ - Task 6
+ - Task 7
+ - Task 8
+ - Task 9

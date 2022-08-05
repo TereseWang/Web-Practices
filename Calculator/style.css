@@ -1,0 +1,17 @@
+body {
+	background-color:powderblue;
+}
+h1 {
+	text-align:center;
+	font-size:600%;
+	font-family:courier;
+	margin: 100px
+}
+p {
+	text-align:center;
+	font-size:300%;
+	font-family:courier;
+	border:  solid blue;
+	padding: 20px;
+	margin: 100px;
+}
