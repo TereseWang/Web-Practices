@@ -1,0 +1,19 @@
+<!-- Followed steps in videos https://www.youtube.com/watch?v=ub-vK97VOhE&t=66s as reference -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css"/>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.0/umd/popper.min.js" ></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+
+<h1>Edit Event</h1>
+<%= render "form.html", Map.put(assigns, :action, Routes.event_path(@conn, :update, @event)) %>
+
+<script >
+$('#picker').datetimepicker({
+  datepicker: true,
+  timepicker: true,
+  format: "Y-m-d H:i:00",
+  step: 30
+});
+</script>

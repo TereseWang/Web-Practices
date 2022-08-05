@@ -1,0 +1,87 @@
+<div class="font-weight-bold h3">
+<img src="<%= Routes.user_path(@conn, :photo, @event) %>"
+alt="" height=60 width=60>
+<%= link current_user(@conn), to: Routes.user_path(@conn, :show, @event) %>
+</div>
+<h1 class="font-weight-bold text-info display-2"><%= @event.name %></h1>
+<h4 class="font-weight-bold h3 text-secondary">Event Date: <%= @event.date %></h4>
+<h4 class="font-weight-bold h3 mb-4"><%= @event.description %></h4>
+<%= link "Back To Home Page", to: "/", class: "mr-2 font-weight-bold btn btn-info" %>
+<%= if current_user_is?(@conn, @event.user_id) do %>
+  <%= link "Edit", to: Routes.event_path(@conn, :edit, @event), class: "mr-2 font-weight-bold btn btn-info"%>
+  <%= link "Delete", to: Routes.event_path(@conn, :delete, @event),
+    method: :delete, data: [confirm: "Are you sure?"], class: "mr-2 font-weight-bold btn btn-danger"%>
+    <div class="font-weight-bold h3 form-inline my-4 mr-2">
+        <%= render(
+        EventappWeb.InviteView,
+        "form.html",
+        changeset: @new_invite,
+        action: Routes.invite_path(@conn, :create),
+        ) %>
+    </div>
+    <h4 class="text-danger">(Notes: If the given email associate with no account, system will create one with the given email)</h4>
+    <h2 class="mt-4 font-weight-bold">Invited</h2>
+    <hr></hr>
+    <%= for invite <- @event.invites do %>
+        <div class="form-inline font-weight-bold h3">
+          <h2 class="text-dark"><%= invite.email %></h2>
+          <%= if invite.response == "unrespond" do %>
+            <h2 class="text-info ml-5"><%= invite.response %></h2>
+          <% end %>
+          <%= if invite.response == "Yes" do %>
+            <h2 class="text-success ml-5"><%= invite.response %></h2>
+          <% end %>
+          <%= if invite.response == "No" do %>
+            <h2 class="text-danger ml-5"><%= invite.response %></h2>
+          <% end %>
+        </div>
+    <% end %>
+<% end %>
+
+<h5 class="mt-4 h3 text-secondary"><%= @responses %></h5>
+<%= if have_current_user?(@conn) do %>
+<%= if invited(@conn, @event.id) do %>
+<%= for invite <- @event.invites do %>
+  <div class="font-weight-bold h3 my-4 mr-2">
+    <%= if current_user_email(@conn) == invite.email do %>
+      <%= render(
+              EventappWeb.InviteView,
+              "update.html",
+              conn: @conn,
+              invite: invite,
+              changeset: @track_invite,
+            )%>
+    <% end %>
+  </div>
+<% end %>
+<% end %>
+
+  <div class="font-weight-bold h3 form-inline my-4 mr-2">
+    <img src="<%= Routes.user_path(@conn, :photo, @current_user) %>"
+    alt="" height=60 width=60>
+    <%= render(
+    EventappWeb.CommentView,
+    "form.html",
+    changeset: @new_comment,
+    action: Routes.comment_path(@conn, :create)
+    ) %>
+  </div>
+
+<%= for comm <- @event.comments do %>
+  <div class="card">
+    <div class="card-body form-inline ml-2">
+      <img src="<%= Routes.user_path(@conn, :photo, comm.user) %>"
+      alt="" height=80 width=80 class="mr-3">
+      <div>
+      <h4><%= link comm.user.name, to: Routes.user_path(@conn, :show, comm.user)%></h4>
+      <h3><%= comm.body %></h3>
+      <%= if current_user_is?(@conn, @event.user_id) ||  current_user_is?(@conn, comm.user_id) do %>
+      <%= link "Edit", to: Routes.comment_path(@conn, :edit, comm), class: "mr-2 font-weight-bold btn btn-info"%>
+      <%= link "Delete", to: Routes.comment_path(@conn, :delete, comm),
+        method: :delete, data: [confirm: "Are you sure?"], class: "mr-2 font-weight-bold btn btn-danger"%>
+      <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
+<% end %>

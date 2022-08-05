@@ -1,0 +1,12 @@
+
+<img src="<%= Routes.user_path(@conn, :photo, @user) %>"
+alt="" height=500>
+<div class="h5">
+  <h1>Name: <%= @user.name%></h1>
+  <h1>Email: <%= @user.email %></h1>
+  <%= if current_user_is?(@conn, @user.id) do %>
+  <h3><%= link "Edit Profile", to: Routes.user_path(@conn, :edit, @user), class: "font-weight-bold"%></h3>
+  <% end %>
+</div>
+<%= link "Back To User List", to: Routes.user_path(@conn, :index), class: "btn btn-lg btn-info font-weight-bold"%>
+<%= link "Back To Home Page", to: "/", class: "btn btn-lg btn-info font-weight-bold"%>

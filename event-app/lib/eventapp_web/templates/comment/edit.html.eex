@@ -1,0 +1,6 @@
+
+<div class="font-weight-bold h3 form-inline my-4">
+  <img src="<%= Routes.user_path(@conn, :photo, @comment.user_id) %>"
+  alt="" height=60 width=60 class="mr-3">
+  <%= render "form.html", Map.put(assigns, :action, Routes.comment_path(@conn, :update, @comment)) %>
+</div>

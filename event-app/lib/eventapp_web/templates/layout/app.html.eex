@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Event</title>
+  <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+  <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+</head>
+<body>
+  <nav class="navbar form-inline navbar-expand-sm p-3 my-3 bg-info text-white">
+    <h1><%= link("HWZone", to: "/", class: "font-weight-bold display-3 ml-5 text-light")%></h1>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item mt-4">
+        <!-- Login and logout part is referenced from Nat Tuck CS4550 Lecture Notes
+            app.html.eex in photoblog-->
+        <%= if @conn.assigns[:current_user] do %>
+        <h4 class="mt-2 font-weight-bold">
+          <img src="<%= Routes.user_path(@conn, :photo, @current_user) %>"
+            alt=""
+            height=50 width=50>
+          <%= @current_user.name%> |
+          <%= link("Logout", to: Routes.session_path(@conn, :delete),
+          method: :delete, class: "text-primary") %>
+        </h4>
+        <% else %>
+        <div>
+          <%= form_for @conn,
+          Routes.session_path(@conn, :create),
+          [class: "form-inline"],
+          fn f -> %>
+          <%= text_input f, :email, class: "form-control"%>
+          <%= submit "Login", class: "font-weight-bold btn btn-primary ml-2" %>
+          <% end %>
+          <h5 class="display-5 pl-4">Enter Email To Login</h5>
+        </div>
+        <li class="nav-item mt-4 ml-2">
+          <%= link "Sign Up", to: Routes.user_path(@conn, :new), class: "font-weight-bold btn btn-success"%>
+        </li>
+        <% end %>
+      </li>
+    </ul>
+  </nav>
+  <main role="main" class="container">
+    <%= if get_flash(@conn, :info) do %>
+    <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+    <% end %>
+    <%= if get_flash(@conn, :error) do %>
+    <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+    <% end %>
+    <%= @inner_content %>
+  </main>
+</body>
+</html>
